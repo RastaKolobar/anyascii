@@ -79,6 +79,10 @@ public final class AnyAsciiTest {
         check("ꁌꐭꑤ", "pujjytxiep");
         check("ⰳⰾⰰⰳⱁⰾⰹⱌⰰ", "glagolica");
         check("ᏎᏉᏯ", "SeQuoYa");
+        check("ㄓㄨㄤ ㄅㄥ ㄒㄧㄠ", "zhuang beng xiao");
+        check("ꚩꚫꛑꚩꚳ ꚳ꛰ꛀꚧꚩꛂ", "ipareim m'shuoiya");
+        check("ᓀᐦᐃᔭᐍᐏᐣ", "nehiyawewin");
+        check("ᠤᠯᠠᠭᠠᠨᠴᠠᠪ", "ulaganqab");
     }
 
     private static void check(String s, String expected) {
@@ -94,12 +98,15 @@ public final class AnyAsciiTest {
 
     @Test public void testNPE() {
         assertThrows(NullPointerException.class, () -> AnyAscii.isAscii(null));
+
         assertThrows(NullPointerException.class, () -> AnyAscii.transliterate(null));
+
         assertThrows(NullPointerException.class, () -> AnyAscii.transliterate(0, null));
         assertThrows(NullPointerException.class, () -> AnyAscii.transliterate(0xff, null));
+
         assertThrows(NullPointerException.class, () -> AnyAscii.transliterate(null, null));
         assertThrows(NullPointerException.class, () -> AnyAscii.transliterate(null, new StringBuilder()));
         assertThrows(NullPointerException.class, () -> AnyAscii.transliterate("-", null));
-        // assertThrows(NullPointerException.class, () -> AnyAscii.transliterate("", null));
+        assertThrows(NullPointerException.class, () -> AnyAscii.transliterate("", null));
     }
 }

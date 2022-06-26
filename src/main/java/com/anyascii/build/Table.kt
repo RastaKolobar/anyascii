@@ -1,10 +1,10 @@
 package com.anyascii.build
 
-import com.ibm.icu.text.Normalizer2
 import java.nio.file.Path
 import java.util.TreeMap
 import kotlin.io.path.bufferedWriter
 import kotlin.io.path.forEachLine
+import kotlin.io.path.useLines
 
 typealias Table = TreeMap<CodePoint, String>
 
@@ -27,18 +27,40 @@ fun Table(file: String) = Table().apply {
     }
 }
 
-fun Iterable<CodePoint>.normalize(normalizer2: Normalizer2) = Table().apply {
+fun readSyllableTable(file: String) = Table().apply {
+    Path.of("input/$file.csv").useLines { lines ->
+        val itr = lines.filter { !it.startsWith('#') }.iterator()
+        val vowels = itr.next().split(',')
+        for (e in itr) {
+            val row = e.split(',')
+            val consonant = row[0]
+            for (i in 1 until row.size) {
+                val col = row[i]
+                if (col.isEmpty()) continue
+                val vowel = vowels[i]
+                val s = if ('-' in vowel) {
+                    vowel.replace("-", consonant)
+                } else {
+                    consonant + vowel
+                }
+                this[CodePoint(col)] = s
+            }
+        }
+    }
+}
+
+fun Iterable<CodePoint>.normalize(normalizer: (CodePoint) -> String) = Table().apply {
     for (cp in this@normalize) {
         val a = String(cp)
-        val b = normalizer2.normalize(a)
+        val b = normalizer(cp)
         if (a != b) put(cp, b)
     }
 }
 
-fun Table.normalize(normalizer2: Normalizer2) = apply {
+fun Table.normalize(normalizer: (CodePoint) -> String) = apply {
     for (cp in ALL) {
         if (cp in this) continue
-        val output = transliterate(normalizer2.normalize(cp))
+        val output = transliterate(normalizer(cp))
         if (output != null) {
             this[cp] = output
         }

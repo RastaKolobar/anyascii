@@ -1,4 +1,4 @@
-# AnyAscii [![build](https://app.travis-ci.com/anyascii/anyascii.svg?branch=master)](https://app.travis-ci.com/anyascii/anyascii)
+# AnyAscii
 
 Unicode to ASCII transliteration
 
@@ -15,7 +15,7 @@ let s = any_ascii("άνθρωποι");
 // anthropoi
 ```
 
-Rust 1.36+ compatible
+Rust 1.42+ compatible
 
 ```toml
 # Cargo.toml

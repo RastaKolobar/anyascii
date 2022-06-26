@@ -3,7 +3,7 @@ use std::io::{BufRead, Write};
 
 fn main() {
     let args = std::env::args();
-    if args.len() == 1 {
+    if args.len() <= 1 {
         transliterate_io();
     } else {
         transliterate_args(args.skip(1).collect());
@@ -45,8 +45,13 @@ fn transliterate_args(args: Vec<String>) {
 }
 
 const HELP_MESSAGE: &str = concat!(
-    "anyascii ", env!("CARGO_PKG_VERSION"), '\n',
-    env!("CARGO_PKG_AUTHORS"), '\n',
-    env!("CARGO_PKG_DESCRIPTION"), '\n',
-    env!("CARGO_PKG_HOMEPAGE"), '\n',
+    "anyascii ",
+    env!("CARGO_PKG_VERSION"),
+    '\n',
+    env!("CARGO_PKG_AUTHORS"),
+    '\n',
+    env!("CARGO_PKG_DESCRIPTION"),
+    '\n',
+    env!("CARGO_PKG_HOMEPAGE"),
+    '\n',
 );
